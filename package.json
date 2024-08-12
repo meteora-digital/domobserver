@@ -35,5 +35,9 @@
   "homepage": "https://github.com/meteora-digital/domobserver#readme",
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ]
 }

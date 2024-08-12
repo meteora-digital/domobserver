@@ -1,5 +1,5 @@
 {
-  "name": "domobserver",
+  "name": "domobserverjs",
   "version": "0.0.1",
   "description": "A MutationObserver on steroids.",
   "main": "dist/index.js",
@@ -33,9 +33,6 @@
     "worker-loader": "^3.0.8"
   },
   "homepage": "https://github.com/meteora-digital/domobserver#readme",
-  "dependencies": {
-    "core-js": "^3.36.0"
-  },
   "publishConfig": {
     "access": "public"
   }

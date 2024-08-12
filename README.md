@@ -11,15 +11,15 @@
 ## Installation
 
 ```bash
-npm i domobserver
-yarn add domobserver
+npm i domobserverjs
+yarn add domobserverjs
 ```
 
 ## Usage
 
 #### Import the `DomObserverController`
 ```javascript
-import DomObserverController from 'domobserver';
+import DomObserverController from 'domobserverjs';
 ```
 
 

@@ -54,11 +54,11 @@ export default class DomObserverController {
       return this.observers.get(normalized);
     }
 
-    const observer = new MutationObserver((mutationRecords) => {
+    const observer = new MutationObserver(() => {
       // Notify agents with matching settings
       this.agents
         .filter(agent => normalizeSettings(agent.settings) === normalized)
-        .forEach(agent => agent.update(mutationRecords));
+        .forEach(agent => agent.update());
     });
 
     observer.observe(document.body, settings);
@@ -103,57 +103,21 @@ class DomObserverAgent {
     this.updateTimeout = null;
 
     // Initial scan for existing elements
-    this.scanDom();
+    this.update();
   }
 
-  update(mutationRecords = []) {
+  update() {
     if (this.updateTimeout) clearTimeout(this.updateTimeout);
 
     this.updateTimeout = setTimeout(() => {
-      if (mutationRecords.length === 0) {
-        this.scanDom();
-        return;
-      }
+      const elements = Array.from(document.querySelectorAll(this.selector));
+      const newItems = elements.filter((el) => !this.cache.has(el));
 
-      const newMatches = [];
-
-      for (const record of mutationRecords) {
-        for (const node of record.addedNodes) {
-          if (!(node instanceof Element)) continue;
-
-          // Direct match
-          if (node.matches(this.selector) && !this.cache.has(node)) {
-            this.cache.add(node);
-            newMatches.push(node);
-          }
-
-          // Descendant matches
-          if (node.querySelectorAll) {
-            node.querySelectorAll(this.selector).forEach((el) => {
-              if (!this.cache.has(el)) {
-                this.cache.add(el);
-                newMatches.push(el);
-              }
-            });
-          }
-        }
-      }
-
-      if (newMatches.length > 0) {
-        this.callback(newMatches);
+      if (newItems.length > 0) {
+        newItems.forEach((el) => this.cache.add(el));
+        this.callback(newItems);
       }
     }, 100);
-  }
-
-  // Scans the DOM for elements matching the selector.
-  scanDom() {
-    const elements = Array.from(document.querySelectorAll(this.selector));
-    const newItems = elements.filter((el) => !this.cache.has(el));
-
-    if (newItems.length > 0) {
-      newItems.forEach((el) => this.cache.add(el));
-      this.callback(newItems);
-    }
   }
 
   // Disconnects the agent and clears its cache.

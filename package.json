@@ -41,5 +41,8 @@
     "README.md",
     "package.json",
     "package-lock.json"
-  ]
+  ],
+  "dependencies": {
+    "core-js": "^3.45.1"
+  }
 }

@@ -1,6 +1,6 @@
 {
   "name": "domobserverjs",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A MutationObserver on steroids.",
   "main": "dist/index.js",
   "scripts": {

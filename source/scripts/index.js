@@ -103,21 +103,22 @@ class DomObserverAgent {
     this.updateTimeout = null;
 
     // Initial scan for existing elements
-    this.update();
+    this.scanForNewItems();
   }
 
   update() {
     if (this.updateTimeout) clearTimeout(this.updateTimeout);
+    this.updateTimeout = setTimeout(() => this.scanForNewItems(), 100);
+  }
 
-    this.updateTimeout = setTimeout(() => {
-      const elements = Array.from(document.querySelectorAll(this.selector));
-      const newItems = elements.filter((el) => !this.cache.has(el));
+  scanForNewItems() {
+    const elements = Array.from(document.querySelectorAll(this.selector));
+    const newItems = elements.filter((el) => !this.cache.has(el));
 
-      if (newItems.length > 0) {
-        newItems.forEach((el) => this.cache.add(el));
-        this.callback(newItems);
-      }
-    }, 100);
+    if (newItems.length > 0) {
+      newItems.forEach((el) => this.cache.add(el));
+      this.callback(newItems);
+    }
   }
 
   // Disconnects the agent and clears its cache.

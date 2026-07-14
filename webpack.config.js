@@ -19,16 +19,7 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
-          options: {
-            presets: [
-              ['@babel/preset-env', {
-                targets: '> 0.25%, not dead', // adjust this to your needs
-                useBuiltIns: 'usage', // only include polyfills your code needs
-                corejs: 3, // specify the version of core-js
-              }]
-            ]
-          }
-        }
+        },
       },
     ]
   },
